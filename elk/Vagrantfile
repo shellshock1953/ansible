@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.ssh.insert_key = false
+    config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "256"]
+    end
+
+    # Elastic
+    config.vm.define "elastic" do |elastic|
+        elastic.vm.hostname = "elastic"
+        elastic.vm.box = "geerlingguy/centos7"
+        elastic.vm.network :private_network, ip: "192.168.60.4"
+    end
+
+    # Logstash
+    config.vm.define "logstash" do |logstash|
+        logstash.vm.hostname = "logstash"
+        logstash.vm.box = "geerlingguy/centos7"
+        logstash.vm.network :private_network, ip: "192.168.60.5"
+    end
+
+    # Kibana
+    config.vm.define "kibana" do |kibana|
+        kibana.vm.hostname = "kibana"
+        kibana.vm.box = "geerlingguy/centos7"
+        kibana.vm.network :private_network, ip: "192.168.60.6"
+    end
+end
+
