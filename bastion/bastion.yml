@@ -1,0 +1,11 @@
+---
+#- hosts: all
+#  roles:
+#    - common
+
+- hosts: bastion
+  become: yes
+  roles:
+    - common
+    - add_users
+    - ssh
