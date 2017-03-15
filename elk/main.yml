@@ -1,19 +1,31 @@
 ---
-# Install java to all hosts
+
+# Add GPG key
 - hosts: all
   roles:
-    - install_java
+    - GPG_repo_key
+
+
+# Install java
+- hosts: elastic,logstash
+  roles:
+    - java
+
 
 # Install, config and run elastic
 - hosts: elastic
-  vars_files:
-    - vars/elasticsearch_vars.yml
   roles:
     - elasticsearch
+
 
 # Install logstash
 - hosts: logstash
   roles:
     - logstash
 
+
 # Install kibana 
+- hosts: kibana
+  roles:
+      #- nginx
+      #- kibana

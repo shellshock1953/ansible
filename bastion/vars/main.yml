@@ -1,4 +1,12 @@
 ---
  # VARS
- auth_adm_keys:
-       - slavikvin
+ MaxSessions: 21
+ all_users:
+   - shellshock
+   - devops
+   - quintagroup
+
+ wheel_users:
+   # must be present in {{ all_users }}
+   - shellshock
+

@@ -1,7 +1,13 @@
 ---
  # ADD USERS
- - name: Add user  for developers
-   user: name={{ user_name }} shell=/bin/bash  createhome=yes home=/home/{{ user_name }} state=present
+ - name: Add ordinary users
+   user: name={{ item }} shell=/bin/bash createhome=yes home=/home/{{ item }} state=present
+   with_items:
+     - "{{ all_users }}"
+ - name: Add wheel users
+   user: name={{ item }} group=wheel append=yes state=present
+   with_items:
+     - "{{ wheel_users }}"
 
  # Add public keys
  - file: name=/tmp/keys state=directory
@@ -9,11 +15,14 @@
    become: no
  - name: Create temp file with public keys
    shell: "cat public_keys/authorized_keys.{{ item }} | while read line; do echo $line >> /tmp/keys/auth.keys; done"
-   with_items: "{{ auth_devel_keys }}"
+   with_items:
+     - "{{ all_users }}"
    delegate_to: 127.0.0.1
    become: no
  - name: Add SSH keys to server
-   authorized_key: user={{ user_name }} key={{ lookup('file', '/tmp/keys/auth.keys') }} state=present
+   authorized_key: user={{ item }} key={{ lookup('file', '/tmp/keys/auth.keys') }} state=present
+   with_items:
+     - "{{ all_users }}"
  - name: Delete temp file
    file: name=/tmp/keys state=absent
    delegate_to: 127.0.0.1

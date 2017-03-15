@@ -1,10 +1,5 @@
 ---
 # Install logstash
-- name: Add Elasticsearch GPG key.
-  rpm_key:
-    key: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
-    state: present
-
 - name: Add Logstash repository.
   copy:
     src: logstash.repo

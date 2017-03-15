@@ -6,7 +6,6 @@
 
  - name: Install ntpd
    dnf: name=ntp state=present
-
  - name: Configure ntpd
    service: name=ntpd state=started enabled=yes
 
@@ -17,6 +16,13 @@
      line: export LC_ALL=en_US.UTF-8
    ignore_errors: True
 
- # ???
- #- name: Generate new machine ID
- #  shell: "mv /etc/machine-id{,.prev} && systemd-machine-id-setup"
+ - name: Generate new machine ID
+   shell: "mv /etc/machine-id{,.prev} && systemd-machine-id-setup"
+
+ # Generate keys
+ - name: Generate new ssh host keys (RSA)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa -h"
+ - name: Generate new ssh host keys (DSA)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -h"
+ - name: Generate new ssh host keys (ed25519)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 -h"

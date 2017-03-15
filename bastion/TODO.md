@@ -1,1 +1,3 @@
-- test when VM "world" has differect IP class
+- vars under 
+- PermitRoot -- double check
+- sshd restart handler
