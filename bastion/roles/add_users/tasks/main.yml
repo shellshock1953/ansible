@@ -1,0 +1,20 @@
+---
+ # ADD USERS
+ - name: Add user  for developers
+   user: name={{ user_name }} shell=/bin/bash  createhome=yes home=/home/{{ user_name }} state=present
+
+ # Add public keys
+ - file: name=/tmp/keys state=directory
+   delegate_to: 127.0.0.1
+   become: no
+ - name: Create temp file with public keys
+   shell: "cat public_keys/authorized_keys.{{ item }} | while read line; do echo $line >> /tmp/keys/auth.keys; done"
+   with_items: "{{ auth_devel_keys }}"
+   delegate_to: 127.0.0.1
+   become: no
+ - name: Add SSH keys to server
+   authorized_key: user={{ user_name }} key={{ lookup('file', '/tmp/keys/auth.keys') }} state=present
+ - name: Delete temp file
+   file: name=/tmp/keys state=absent
+   delegate_to: 127.0.0.1
+   become: no

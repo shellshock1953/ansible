@@ -1,0 +1,20 @@
+---
+ # SSH
+ # Generate keys
+ - name: Generate new ssh host keys (RSA)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa -h"
+ - name: Generate new ssh host keys (DSA)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -h"
+ - name: Generate new ssh host keys (ed25519)
+   shell: sh -c "echo -e  'y\n'| ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 -h"
+
+ # copy conf
+ - name: Deleting default sshd_conf file
+   file: name:/etc/ssh/sshd_config state=absent
+ - name: Placing new sshd_config
+   copy:
+     src: sshd_config
+     dest: /etc/ssh/sshd_config
+     mode: 0600
+   notify: restart sshd
+

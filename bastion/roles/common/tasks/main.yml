@@ -1,0 +1,22 @@
+---
+ # COMMON
+ # General OS config
+ - name: Install python-dnf and selinux binding
+   shell: "dnf install python-dnf libselinux-python -y"
+
+ - name: Install ntpd
+   dnf: name=ntp state=present
+
+ - name: Configure ntpd
+   service: name=ntpd state=started enabled=yes
+
+ - name: Fix locale error
+   lineinfile:
+     dest: /etc/profile
+     insertafter: EOF
+     line: export LC_ALL=en_US.UTF-8
+   ignore_errors: True
+
+ # ???
+ #- name: Generate new machine ID
+ #  shell: "mv /etc/machine-id{,.prev} && systemd-machine-id-setup"
