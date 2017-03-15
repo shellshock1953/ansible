@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.ssh.insert_key = false
+    config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "256"]
+    end
+
+    # bastion
+    config.vm.define "bastion" do |bastion|
+        bastion.vm.hostname = "bastion"
+        bastion.vm.box = "fedora/24-cloud-base"
+        bastion.vm.network :private_network, ip: "192.168.70.1"
+    end
+
+    # local
+    config.vm.define "local" do |local|
+        local.vm.hostname = "local"
+        local.vm.box = "fedora/24-cloud-base"
+        local.vm.network :private_network, ip: "192.168.70.2"
+    end
+
+    # world
+    config.vm.define "world" do |world|
+        world.vm.hostname = "world"
+        world.vm.box = "fedora/24-cloud-base"
+        world.vm.network :private_network, ip: "192.168.70.100"
+    end
+end
+

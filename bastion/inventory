@@ -1,0 +1,21 @@
+# Bastion
+[bastion]
+192.168.70.1
+
+# Local
+[local]
+192.168.70.2
+
+# World
+[world]
+192.168.70.100
+
+# Group 'multi' with all servers
+[multi:children]
+bastion
+local
+world
+
+[multi:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=/home/shellshock/.vagrant.d/insecure_private_key

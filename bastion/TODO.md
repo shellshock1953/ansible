@@ -1,0 +1,1 @@
+- test when VM "world" has differect IP class
