@@ -7,8 +7,5 @@
   become: yes
   roles:
     - ssh
-    #- common
-    #- add_users
-  handlers:
-    - name: restart sshd
-      service: name=sshd state=restarted
+    - common
+    - add_users

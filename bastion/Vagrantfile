@@ -14,6 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         bastion.vm.hostname = "bastion"
         bastion.vm.box = "fedora/24-cloud-base"
         bastion.vm.network :private_network, ip: "192.168.70.10"
+		bastion.vm.provision "shell", inline: "sudo dnf install python python-dnf libselinux-python -y"
     end
 end
 
