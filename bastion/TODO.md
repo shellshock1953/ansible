@@ -1,3 +1,2 @@
-- vars under 
-- PermitRoot -- double check
-- sshd restart handler
+- uid=1002(shellshock) gid=10(wheel) groups=10(wheel)
+- user shellshock is in wheel ONLY

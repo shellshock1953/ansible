@@ -1,20 +1,16 @@
 ---
  # SSH
- - name: Permit root access
-   become: yes
-   lineinfile:
-     dest: "/etc/ssh/sshd_config"
-     regexp: "PermitRootLogin yes$"
-     line: "PermitRootLogin no"
-     state: present
 
- - name: Setting ssh MaxSessions
+ - name: Setting ssh MaxSessions and Permit root access
    become: yes
    lineinfile:
      dest: "/etc/ssh/sshd_config"
      regexp: "MaxSessions"
      line: "MaxSessions {{ MaxSessions }}"
      state: present
+   lineinfile:
+     dest: "/etc/ssh/sshd_config"
+     regexp: "PermitRootLogin yes$"
+     line: "PermitRootLogin {{ PermitRootLogin }}"
+     state: present
    notify: restart sshd
-
-
